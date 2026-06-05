@@ -1,6 +1,6 @@
 # Quorum
 
-[![ci](https://github.com/thomaspeng/quorum/actions/workflows/ci.yml/badge.svg)](https://github.com/thomaspeng/quorum/actions/workflows/ci.yml)
+[![ci](https://github.com/7P3ng/quorum/actions/workflows/ci.yml/badge.svg)](https://github.com/7P3ng/quorum/actions/workflows/ci.yml)
 
 **A task-aware agent orchestrator: cost-aware model routing · adversarial multi-agent verification · every agent call traced · a trace UI that actually looks like a product.**
 
