@@ -1,4 +1,4 @@
-from core.dispatcher import dispatch, classify_heuristic
+from core.dispatcher import classify_heuristic, dispatch
 
 
 def test_code_file_path_routes_to_code_review():

@@ -8,8 +8,9 @@ going; the caller decides whether a degraded run is still useful.
 from __future__ import annotations
 
 import time
+from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
-from typing import Any, Callable, Iterable, Optional, TypeVar
+from typing import Any, TypeVar
 
 T = TypeVar("T")
 R = TypeVar("R")
@@ -19,8 +20,8 @@ def fan_out(
     items: list[T],
     fn: Callable[[T], R],
     *, max_concurrency: int = 8,
-    on_error: Optional[Callable[[T, Exception], None]] = None,
-) -> list[Optional[R]]:
+    on_error: Callable[[T, Exception], None] | None = None,
+) -> list[R | None]:
     """Run ``fn`` over ``items`` concurrently. Results are returned in input order.
 
     A failing item yields ``None`` (graceful degradation) and the rest proceed.
@@ -28,7 +29,7 @@ def fan_out(
     """
     if not items:
         return []
-    results: list[Optional[R]] = [None] * len(items)
+    results: list[R | None] = [None] * len(items)
 
     def _run(idx_item):
         idx, item = idx_item

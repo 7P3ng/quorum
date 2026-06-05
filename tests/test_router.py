@@ -7,7 +7,7 @@ from core.model_client import FakeClient
 from core.orchestrator import fan_out
 from core.router import Router, default_policy
 from core.tracing import TraceStore
-from core.types import Task, Tier, RateLimitError, ModelError
+from core.types import ModelError, RateLimitError, Task, Tier
 
 
 def _task(diff, kind="qa", tid="t"):

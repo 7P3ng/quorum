@@ -11,13 +11,18 @@ unit-testable and swappable; ``default_policy`` encodes a sensible cost ladder.
 from __future__ import annotations
 
 import threading
+from collections.abc import Callable
 from dataclasses import replace
-from typing import Callable, Optional
 
 from core.model_client import ModelClient
 from core.tracing import TraceStore
 from core.types import (
-    ModelError, ModelResponse, RateLimitError, RunOutcome, Task, Tier,
+    ModelError,
+    ModelResponse,
+    RateLimitError,
+    RunOutcome,
+    Task,
+    Tier,
 )
 
 # kinds that are pure mechanical classification/extraction -> cheapest tier
@@ -57,8 +62,8 @@ class Router:
 
     def call(
         self, task: Task, *, system: str, prompt: str, run_id: str,
-        parent: Optional[str] = None, max_tokens: int = 1024,
-        force_tier: Optional[Tier] = None,
+        parent: str | None = None, max_tokens: int = 1024,
+        force_tier: Tier | None = None,
     ) -> ModelResponse:
         chosen = force_tier if force_tier is not None else self.route(task)
         ladder = self._ladder_from(chosen)

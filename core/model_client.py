@@ -10,7 +10,8 @@ from __future__ import annotations
 
 import hashlib
 import json
-from typing import Any, Callable, Optional, Protocol, runtime_checkable
+from collections.abc import Callable
+from typing import Any, Protocol, runtime_checkable
 
 from core.pricing import cost
 from core.types import ModelResponse, Tier
@@ -49,7 +50,7 @@ class FakeClient:
     def __init__(
         self,
         responder: Callable[[str, str, list[dict[str, Any]], int], str],
-        *, latency_ms: float = 1.0, tier: Optional[Tier] = None,
+        *, latency_ms: float = 1.0, tier: Tier | None = None,
     ) -> None:
         self._responder = responder
         self._latency_ms = latency_ms

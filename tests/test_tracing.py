@@ -56,7 +56,7 @@ def test_exception_marks_failed_and_reraises():
     s = TraceStore(":memory:")
     run = s.new_run()
     with pytest.raises(ValueError):
-        with s.span("boom", run_id=run) as sp:
+        with s.span("boom", run_id=run):
             raise ValueError("kaboom")
     r = s.query(run)[0]
     assert r["outcome"] == RunOutcome.FAILED.value

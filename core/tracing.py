@@ -16,8 +16,9 @@ import sqlite3
 import threading
 import time
 import uuid
+from collections.abc import Iterator
 from contextlib import contextmanager
-from typing import Any, Iterator, Optional
+from typing import Any
 
 from core.types import ModelResponse, RunOutcome, Tier
 
@@ -52,20 +53,20 @@ CREATE INDEX IF NOT EXISTS idx_spans_run ON spans(run_id);
 class Span:
     """A single traced operation. Populated via :meth:`record` / :meth:`record_response`."""
 
-    def __init__(self, span_id: str, run_id: str, name: str, parent_id: Optional[str]) -> None:
+    def __init__(self, span_id: str, run_id: str, name: str, parent_id: str | None) -> None:
         self.id = span_id
         self.run_id = run_id
         self.name = name
         self.parent_id = parent_id
-        self.model: Optional[str] = None
-        self.tier: Optional[int] = None
+        self.model: str | None = None
+        self.tier: int | None = None
         self.input_tokens = 0
         self.output_tokens = 0
         self.cost_usd = 0.0
         self.latency_ms = 0.0
         self.retries = 0
         self.outcome = RunOutcome.OK
-        self.error: Optional[str] = None
+        self.error: str | None = None
         self.attrs: dict[str, Any] = {}
         self.started_at = 0.0
         self.ended_at = 0.0

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 
 class Tier(enum.IntEnum):
@@ -28,7 +28,7 @@ class Tier(enum.IntEnum):
         return _TIER_MODEL[self]
 
     @classmethod
-    def from_name(cls, name: str) -> "Tier":
+    def from_name(cls, name: str) -> Tier:
         return cls[name.strip().upper()]
 
 
@@ -58,7 +58,7 @@ class ModelResponse:
     cost_usd: float
     latency_ms: float
     stop_reason: str = "stop"
-    tier: Optional[Tier] = None
+    tier: Tier | None = None
 
 
 @dataclass

@@ -3,7 +3,7 @@ import time
 
 import pytest
 
-from core.orchestrator import fan_out, retry, memoize, pipeline
+from core.orchestrator import fan_out, memoize, pipeline, retry
 
 
 def test_fan_out_preserves_order():

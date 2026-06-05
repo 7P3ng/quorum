@@ -36,7 +36,7 @@ class AnthropicClient:
         except self._anthropic.APIError as exc:
             raise ModelError(str(exc)) from exc
         latency = (perf_counter() - t0) * 1000.0
-        text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
+        text = "".join(getattr(b, "text", "") for b in resp.content if getattr(b, "type", "") == "text")
         in_tok = resp.usage.input_tokens
         out_tok = resp.usage.output_tokens
         return ModelResponse(

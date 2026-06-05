@@ -1,6 +1,6 @@
 import pytest
 
-from core.pricing import cost, PRICING
+from core.pricing import PRICING, cost
 
 
 def test_opus_cost_is_table_driven():

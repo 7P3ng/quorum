@@ -1,7 +1,10 @@
 import pytest
 
 from core.model_client import (
-    FakeClient, RecordedClient, prompt_key, estimate_tokens,
+    FakeClient,
+    RecordedClient,
+    estimate_tokens,
+    prompt_key,
 )
 
 

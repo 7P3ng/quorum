@@ -10,9 +10,7 @@ result rather than pretending.
 from __future__ import annotations
 
 import argparse
-import sys
 from dataclasses import dataclass, field
-from typing import Optional
 
 from pipelines.code_review.finder import DEFAULT_LENSES
 
@@ -78,7 +76,7 @@ def dispatch(target: str, router=None) -> DispatchResult:
                           available=available, config=config)
 
 
-def main(argv: Optional[list[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Quorum dispatcher — pick a pipeline for a target")
     ap.add_argument("target", help="a file path, a diff, or a task description")
     args = ap.parse_args(argv)
