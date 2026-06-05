@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { TracesData, Run } from '@/types/traces'
+import { useState } from 'react'
+import { TracesData } from '@/types/traces'
 import { RunCard } from '@/components/RunCard'
 import { RunDetailView } from '@/components/RunDetail'
+import { ClaimView } from '@/components/ClaimView'
 import { formatTimestamp } from '@/lib/format'
 
 // Static import of traces
@@ -11,7 +12,10 @@ import tracesData from '../../public/traces.json'
 
 const data = tracesData as unknown as TracesData
 
+type TopView = 'traces' | 'claim'
+
 export default function HomePage() {
+  const [topView, setTopView] = useState<TopView>('traces')
   const [selectedRunId, setSelectedRunId] = useState<string | null>(
     data.runs.length > 0 ? data.runs[0].run_id : null
   )
@@ -58,16 +62,30 @@ export default function HomePage() {
             >
               Quorum
             </span>
-            <span
-              className="text-xs px-1.5 py-0.5 rounded font-mono"
+
+            {/* Segmented view switcher */}
+            <div
+              className="flex items-center gap-0.5 p-0.5 rounded-md"
               style={{
                 background: 'var(--color-surface-2)',
-                color: 'var(--color-text-tertiary)',
                 border: '1px solid var(--color-border)',
               }}
             >
-              traces
-            </span>
+              {(['traces', 'claim'] as const).map((view) => (
+                <button
+                  key={view}
+                  onClick={() => setTopView(view)}
+                  className="px-2.5 py-1 rounded text-[11px] font-medium transition-all duration-150"
+                  style={{
+                    background: topView === view ? 'var(--color-surface-3)' : 'transparent',
+                    color: topView === view ? 'var(--color-text-primary)' : 'var(--color-text-tertiary)',
+                    border: topView === view ? '1px solid var(--color-border-strong)' : '1px solid transparent',
+                  }}
+                >
+                  {view}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div
@@ -80,84 +98,90 @@ export default function HomePage() {
       </header>
 
       {/* Main layout */}
-      <div className="max-w-screen-xl mx-auto px-6 py-6 flex gap-6" style={{ minHeight: 'calc(100vh - 48px)' }}>
-        {/* Sidebar: run list */}
-        <aside
-          className="flex-shrink-0"
-          style={{ width: '320px' }}
-        >
-          <div className="sticky top-20">
-            <div className="flex items-center justify-between mb-3">
-              <h2
-                className="text-xs font-semibold uppercase tracking-widest"
-                style={{ color: 'var(--color-text-tertiary)' }}
-              >
-                Runs
-              </h2>
-              <span
-                className="font-mono text-xs"
-                style={{ color: 'var(--color-text-tertiary)' }}
-              >
-                {data.runs.length}
-              </span>
-            </div>
+      {topView === 'traces' ? (
+        <div className="max-w-screen-xl mx-auto px-6 py-6 flex gap-6" style={{ minHeight: 'calc(100vh - 48px)' }}>
+          {/* Sidebar: run list */}
+          <aside
+            className="flex-shrink-0"
+            style={{ width: '320px' }}
+          >
+            <div className="sticky top-20">
+              <div className="flex items-center justify-between mb-3">
+                <h2
+                  className="text-xs font-semibold uppercase tracking-widest"
+                  style={{ color: 'var(--color-text-tertiary)' }}
+                >
+                  Runs
+                </h2>
+                <span
+                  className="font-mono text-xs"
+                  style={{ color: 'var(--color-text-tertiary)' }}
+                >
+                  {data.runs.length}
+                </span>
+              </div>
 
-            {data.runs.length === 0 ? (
+              {data.runs.length === 0 ? (
+                <div
+                  className="rounded-lg p-6 text-center text-sm"
+                  style={{
+                    background: 'var(--color-surface-1)',
+                    border: '1px solid var(--color-border)',
+                    color: 'var(--color-text-tertiary)',
+                  }}
+                >
+                  No runs recorded
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {data.runs.map(run => (
+                    <RunCard
+                      key={run.run_id}
+                      run={run}
+                      isSelected={run.run_id === selectedRunId}
+                      onClick={() => setSelectedRunId(run.run_id)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </aside>
+
+          {/* Main: run detail */}
+          <main className="flex-1 min-w-0">
+            {selectedRun && selectedDetail ? (
+              <RunDetailView run={selectedRun} detail={selectedDetail} />
+            ) : (
               <div
-                className="rounded-lg p-6 text-center text-sm"
+                className="rounded-xl h-64 flex items-center justify-center"
                 style={{
                   background: 'var(--color-surface-1)',
                   border: '1px solid var(--color-border)',
-                  color: 'var(--color-text-tertiary)',
                 }}
               >
-                No runs recorded
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {data.runs.map(run => (
-                  <RunCard
-                    key={run.run_id}
-                    run={run}
-                    isSelected={run.run_id === selectedRunId}
-                    onClick={() => setSelectedRunId(run.run_id)}
-                  />
-                ))}
+                <div className="text-center">
+                  <div
+                    className="text-sm font-medium mb-1"
+                    style={{ color: 'var(--color-text-secondary)' }}
+                  >
+                    Select a run
+                  </div>
+                  <div
+                    className="text-xs"
+                    style={{ color: 'var(--color-text-tertiary)' }}
+                  >
+                    Choose a run from the sidebar to inspect its spans
+                  </div>
+                </div>
               </div>
             )}
-          </div>
-        </aside>
-
-        {/* Main: run detail */}
-        <main className="flex-1 min-w-0">
-          {selectedRun && selectedDetail ? (
-            <RunDetailView run={selectedRun} detail={selectedDetail} />
-          ) : (
-            <div
-              className="rounded-xl h-64 flex items-center justify-center"
-              style={{
-                background: 'var(--color-surface-1)',
-                border: '1px solid var(--color-border)',
-              }}
-            >
-              <div className="text-center">
-                <div
-                  className="text-sm font-medium mb-1"
-                  style={{ color: 'var(--color-text-secondary)' }}
-                >
-                  Select a run
-                </div>
-                <div
-                  className="text-xs"
-                  style={{ color: 'var(--color-text-tertiary)' }}
-                >
-                  Choose a run from the sidebar to inspect its spans
-                </div>
-              </div>
-            </div>
-          )}
-        </main>
-      </div>
+          </main>
+        </div>
+      ) : (
+        <div className="max-w-screen-xl mx-auto px-6 py-6" style={{ minHeight: 'calc(100vh - 48px)' }}>
+          <ClaimView />
+        </div>
+      )}
     </div>
   )
 }
