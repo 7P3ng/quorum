@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+*.db
+traces.db
+.env
+node_modules/
+ui/.next/
+ui/out/
+ui/node_modules/
+*.live.log
+.DS_Store
+.playwright-mcp/
+*.gif.tmp
