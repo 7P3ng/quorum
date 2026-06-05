@@ -1,0 +1,428 @@
+[
+  {
+    "snippet": "b01_offbyone.py",
+    "buggy": true,
+    "bug": {
+      "line": 3,
+      "category": "correctness",
+      "summary": "range(len()+1) indexes one past the end -> IndexError"
+    },
+    "candidates": [
+      {
+        "line": 3,
+        "category": "correctness",
+        "title": "Off-by-one error causes IndexError on list access",
+        "votes": [
+          "real",
+          "real",
+          "real",
+          "real",
+          "real"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "b02_wrong_op.py",
+    "buggy": true,
+    "bug": {
+      "line": 2,
+      "category": "correctness",
+      "summary": "returns True for ODD numbers; should be == 0"
+    },
+    "candidates": [
+      {
+        "line": 2,
+        "category": "correctness",
+        "title": "Wrong operator for even check",
+        "votes": [
+          "real",
+          "real",
+          "real",
+          "real",
+          "real"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "b03_empty_index.py",
+    "buggy": true,
+    "bug": {
+      "line": 2,
+      "category": "correctness",
+      "summary": "name[0] raises IndexError on empty string"
+    },
+    "candidates": [
+      {
+        "line": 2,
+        "category": "correctness",
+        "title": "No null check on 'name'",
+        "votes": [
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "b04_mutable_default.py",
+    "buggy": true,
+    "bug": {
+      "line": 1,
+      "category": "correctness",
+      "summary": "mutable default arg shared across calls -> state leaks"
+    },
+    "candidates": [
+      {
+        "line": 1,
+        "category": "correctness",
+        "title": "Mutable default argument causes unintended shared state",
+        "votes": [
+          "real",
+          "real",
+          "real",
+          "real",
+          "real"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "b05_leak.py",
+    "buggy": true,
+    "bug": {
+      "line": 2,
+      "category": "resource",
+      "summary": "file handle never closed -> resource leak"
+    },
+    "candidates": [
+      {
+        "line": 2,
+        "category": "resource",
+        "title": "File handle not closed",
+        "votes": [
+          "not_a_bug",
+          "real",
+          "not_a_bug",
+          "not_a_bug",
+          "real"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "b06_early_return.py",
+    "buggy": true,
+    "bug": {
+      "line": 5,
+      "category": "correctness",
+      "summary": "return False is inside the loop -> only checks first element"
+    },
+    "candidates": [
+      {
+        "line": 5,
+        "category": "correctness",
+        "title": "Return False inside loop causes early exit",
+        "votes": [
+          "real",
+          "real",
+          "real",
+          "real",
+          "real"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "b07_assign_in_cond.js",
+    "buggy": true,
+    "bug": {
+      "line": 2,
+      "category": "security",
+      "summary": "assignment '=' in condition always grants; should be ==="
+    },
+    "candidates": [
+      {
+        "line": 2,
+        "category": "correctness",
+        "title": "Assignment instead of comparison in condition",
+        "votes": [
+          "real",
+          "real",
+          "real",
+          "real",
+          "real"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "b08_loop_bound.js",
+    "buggy": true,
+    "bug": {
+      "line": 3,
+      "category": "correctness",
+      "summary": "i <= length reads arr[length] (undefined) -> NaN"
+    },
+    "candidates": [
+      {
+        "line": 3,
+        "category": "correctness",
+        "title": "Off-by-one loop bound",
+        "votes": [
+          "real",
+          "real",
+          "real",
+          "real",
+          "real"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "b09_div_zero.py",
+    "buggy": true,
+    "bug": {
+      "line": 2,
+      "category": "correctness",
+      "summary": "ZeroDivisionError when xs is empty"
+    },
+    "candidates": [
+      {
+        "line": 2,
+        "category": "correctness",
+        "title": "ZeroDivisionError for empty input",
+        "votes": [
+          "real",
+          "real",
+          "real",
+          "real",
+          "real"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "b10_is_value.py",
+    "buggy": true,
+    "bug": {
+      "line": 2,
+      "category": "correctness",
+      "summary": "'is' compares identity; ints > 256 may not be cached -> wrong"
+    },
+    "candidates": [
+      {
+        "line": 2,
+        "category": "correctness",
+        "title": "Using 'is' for integer comparison instead of '=='",
+        "votes": [
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "b11_missing_await.js",
+    "buggy": true,
+    "bug": {
+      "line": 2,
+      "category": "correctness",
+      "summary": "missing await; res is a Promise, res.json is undefined"
+    },
+    "candidates": [
+      {
+        "line": 2,
+        "category": "correctness",
+        "title": "Missing await before fetch",
+        "votes": [
+          "real",
+          "real",
+          "real",
+          "real",
+          "real"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "b12_silent_except.py",
+    "buggy": true,
+    "bug": {
+      "line": 4,
+      "category": "correctness",
+      "summary": "bare except: pass silently swallows write failures"
+    },
+    "candidates": [
+      {
+        "line": 4,
+        "category": "correctness",
+        "title": "Silent exception swallowing",
+        "votes": [
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "c01_sum_ok.py",
+    "buggy": false,
+    "bug": null,
+    "candidates": []
+  },
+  {
+    "snippet": "c02_even_ok.py",
+    "buggy": false,
+    "bug": null,
+    "candidates": []
+  },
+  {
+    "snippet": "c03_initial_ok.py",
+    "buggy": false,
+    "bug": null,
+    "candidates": [
+      {
+        "line": 2,
+        "category": "correctness",
+        "title": "initial may return whitespace if name has leading space",
+        "votes": [
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "real",
+          "not_a_bug"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "c04_default_ok.py",
+    "buggy": false,
+    "bug": null,
+    "candidates": []
+  },
+  {
+    "snippet": "c05_context_ok.py",
+    "buggy": false,
+    "bug": null,
+    "candidates": [
+      {
+        "line": 2,
+        "category": "correctness",
+        "title": "Missing encoding argument in open()",
+        "votes": [
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "c06_contains_ok.py",
+    "buggy": false,
+    "bug": null,
+    "candidates": [
+      {
+        "line": 2,
+        "category": "correctness",
+        "title": "TypeError when xs is None",
+        "votes": [
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "c07_strict_eq.js",
+    "buggy": false,
+    "bug": null,
+    "candidates": [
+      {
+        "line": 2,
+        "category": "correctness",
+        "title": "Missing null/undefined check for user parameter",
+        "votes": [
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "real",
+          "not_a_bug"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "c08_loop_ok.js",
+    "buggy": false,
+    "bug": null,
+    "candidates": [
+      {
+        "line": 3,
+        "category": "correctness",
+        "title": "Missing null/undefined check on parameter arr",
+        "votes": [
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug"
+        ]
+      }
+    ]
+  },
+  {
+    "snippet": "c09_avg_guard.py",
+    "buggy": false,
+    "bug": null,
+    "candidates": []
+  },
+  {
+    "snippet": "c10_eq_ok.py",
+    "buggy": false,
+    "bug": null,
+    "candidates": []
+  },
+  {
+    "snippet": "c11_await_ok.js",
+    "buggy": false,
+    "bug": null,
+    "candidates": []
+  },
+  {
+    "snippet": "c12_handled_except.py",
+    "buggy": false,
+    "bug": null,
+    "candidates": [
+      {
+        "line": 5,
+        "category": "correctness",
+        "title": "Missing import of 'logging' module",
+        "votes": [
+          "not_a_bug",
+          "not_a_bug",
+          "not_a_bug",
+          "real",
+          "not_a_bug"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,914 @@
+{
+  "3348f2ed615544e4b1798fbd9c136efdc9a26793e360e7015b596b3b1dda3153": {
+    "text": "[{\"line\": 3, \"severity\": \"high\", \"category\": \"correctness\", \"title\": \"Off-by-one error causes IndexError on list access\", \"rationale\": \"range(len(prices) + 1) iterates up to and including index len(prices), which is out of bounds for the list, causing an IndexError for any input (including empty list).\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 204,
+    "output_tokens": 352,
+    "latency_ms": 8252.46705301106,
+    "stop_reason": "stop"
+  },
+  "aaccdce1f9444ac874958f26c3e58fab11bd0cd03971fc5ed5eaaf03370930fa": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"off-by-one: range(len(prices)+1) always accesses index len(prices), which is out of bounds\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 246,
+    "output_tokens": 203,
+    "latency_ms": 4631.55553501565,
+    "stop_reason": "stop"
+  },
+  "0ee67e61b2f73504b551c4d84e2c659f47681d922fa39b1f1dc7bf9bc23986c1": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"range(len(prices)+1) iterates to index len(prices), which is out of bounds, causing IndexError on all inputs.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 248,
+    "output_tokens": 298,
+    "latency_ms": 6239.135838928632,
+    "stop_reason": "stop"
+  },
+  "73b1262fc6bd237596c4843c2ad2799d25a129d912495e280f8a68e2bb654848": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"range(len(prices) + 1) includes index equal to len(prices), which is out of bounds, triggering IndexError for any input.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 245,
+    "output_tokens": 356,
+    "latency_ms": 8461.692682933062,
+    "stop_reason": "stop"
+  },
+  "1030d3231125b5893a5fb95b11aaaf367c07496e793205d6166745bfba753e9c": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"range(len(prices) + 1) includes index len(prices) which is out-of-bounds, guaranteed IndexError for any input.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 247,
+    "output_tokens": 400,
+    "latency_ms": 8560.798425925896,
+    "stop_reason": "stop"
+  },
+  "a06a2ab5d99d0a6d3283ea54c633f8f6e8febcba7116b6b854d79208473a2fb5": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"loop iterates up to len(prices) inclusive, which is out of bounds for any list, causing IndexError.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 244,
+    "output_tokens": 641,
+    "latency_ms": 13211.680371081457,
+    "stop_reason": "stop"
+  },
+  "5ed920a8863c461390a600932f5b5c94be3ae4fc14e94aca72a0bcd2b4ad1a24": {
+    "text": "[\n  {\n    \"line\": 2,\n    \"severity\": \"medium\",\n    \"category\": \"correctness\",\n    \"title\": \"Wrong operator for even check\",\n    \"rationale\": \"Function 'is_even' returns True when n is odd because it checks n % 2 == 1 instead of == 0. This will misclassify numbers.\"\n  }\n]",
+    "model": "deepseek-chat",
+    "input_tokens": 177,
+    "output_tokens": 473,
+    "latency_ms": 10059.034375939518,
+    "stop_reason": "stop"
+  },
+  "a1a890a5563bae67422a72b36f4c89c69d3413b2f0e6c78c76e884445012780d": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Function name implies checking evenness, but n%2==1 returns True for odd numbers; a trivial unit test (e.g., is_even(2)) would fail.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 208,
+    "output_tokens": 269,
+    "latency_ms": 6017.448618076742,
+    "stop_reason": "stop"
+  },
+  "52cb5bd78c4173f913403e1124692b63a021e1aa467076140b21728e8c2c16b6": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"The function returns True for odd numbers instead of even, misclassifying any integer.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 207,
+    "output_tokens": 258,
+    "latency_ms": 6284.5040439860895,
+    "stop_reason": "stop"
+  },
+  "414d0b43c4fa54d8469207504c8d5a4e7f08a755c8a6360641b2c1432a77ae91": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Function returns n % 2 == 1, which is True for odd numbers, not even; no guard prevents the misclassification.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 206,
+    "output_tokens": 276,
+    "latency_ms": 6320.981064927764,
+    "stop_reason": "stop"
+  },
+  "3c7fc70de0c13a2979331d1f969fb81ab78b3fa59d7f3cb234041008fd86d247": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Function returns n%2==1 which is true for odd numbers, not even; causes incorrect classification.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 210,
+    "output_tokens": 348,
+    "latency_ms": 8522.090221988037,
+    "stop_reason": "stop"
+  },
+  "d0b918384d349ad2b1e7ea42fbdf4b2814f154443a812707992aec248d575a73": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Function is_even returns n % 2 == 1, making it a correct is_odd and incorrect for is_even; any call will misclassify parity.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 209,
+    "output_tokens": 564,
+    "latency_ms": 12966.029773000628,
+    "stop_reason": "stop"
+  },
+  "682cd22a4973a4befdadcb187c229d9a77e4a85ad7919e592e9e99a5b95f3b46": {
+    "text": "[\n  {\n    \"line\": 2,\n    \"severity\": \"medium\",\n    \"category\": \"correctness\",\n    \"title\": \"No null check on 'name'\",\n    \"rationale\": \"If name is None, accessing name[0] raises TypeError.\"\n  },\n  {\n    \"line\": 2,\n    \"severity\": \"medium\",\n    \"category\": \"correctness\",\n    \"title\": \"Empty string not handled\",\n    \"rationale\": \"If name is an empty string, name[0] raises IndexError.\"\n  }\n]",
+    "model": "deepseek-chat",
+    "input_tokens": 172,
+    "output_tokens": 772,
+    "latency_ms": 15094.414224964567,
+    "stop_reason": "stop"
+  },
+  "b30f409ac3eaf988819283aa871643e19f861c72e824692ff1156b1b7a95cf2f": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"The function assumes a valid string input; a null check is defensive coding, not a realistic defect triggerable under normal usage.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 181,
+    "output_tokens": 387,
+    "latency_ms": 10355.429685092531,
+    "stop_reason": "stop"
+  },
+  "3b15885ab8d062665cbaa35d2915d501183390dbf451183b96f1c71771d1fa89": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Function expects a string; passing None is a caller error, not a defect. The exception is appropriate.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 183,
+    "output_tokens": 459,
+    "latency_ms": 10707.516356022097,
+    "stop_reason": "stop"
+  },
+  "c172fe977609deee6a0a2802c80b604d80cbb06a41018a1ab782c5fbb4745cbd": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Calling with None would be a caller error; the function's contract implicitly requires a non-null string.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 184,
+    "output_tokens": 517,
+    "latency_ms": 11321.83571497444,
+    "stop_reason": "stop"
+  },
+  "98f5eb0d95a8a9c94033e9cb21479505ce7f4295012558a6e4eba60658d67085": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"No evidence that name can be None in actual usage; the function's contract likely expects a string.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 180,
+    "output_tokens": 520,
+    "latency_ms": 12650.033905985765,
+    "stop_reason": "stop"
+  },
+  "f4b3ae5f19823ba4851ee9cfa87f6ff6d2ac790c6ce3db65514df09cd4594a26": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Raising TypeError on None is standard Python behavior for missing argument validation; no bug without a spec mandating null handling.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 182,
+    "output_tokens": 640,
+    "latency_ms": 15609.068221994676,
+    "stop_reason": "stop"
+  },
+  "eee8b381771cf7ff091ee8f51e6194cf0ec566ebc6feb7e03eb30e7c68086232": {
+    "text": "[{\"line\": 1, \"severity\": \"medium\", \"category\": \"correctness\", \"title\": \"Mutable default argument causes unintended shared state\", \"rationale\": \"The default value bucket=[] is evaluated once at function definition. Subsequent calls without an explicit bucket argument will share and mutate the same list, causing appended items to persist across calls and leading to incorrect behavior.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 181,
+    "output_tokens": 375,
+    "latency_ms": 8864.924559020437,
+    "stop_reason": "stop"
+  },
+  "3c6c5976f1b68535dffe002d1bc3841374730ce88fffce62ade4bd733299bb10": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Mutable default argument causes persistent shared list across calls, leading to unexpected accumulation of items.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 220,
+    "output_tokens": 194,
+    "latency_ms": 5030.118318973109,
+    "stop_reason": "stop"
+  },
+  "517dcf2ef88da7ab81d4f14d5dde0152fc26bd854402df9b8000a43d8fcf5792": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Mutable default argument is evaluated once at definition, so repeated calls without bucket share and mutate the same list, causing unintended accumulation across calls.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 222,
+    "output_tokens": 207,
+    "latency_ms": 5827.130193007179,
+    "stop_reason": "stop"
+  },
+  "ee78b6f76de2a09f12c3cc03f4ab13a8e8fd8bc1944c3222b31f0b92b66c1a64": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"No guards exist; the default mutable list persists across calls, causing unintended shared state.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 219,
+    "output_tokens": 306,
+    "latency_ms": 7760.117826983333,
+    "stop_reason": "stop"
+  },
+  "2a0bf25c88ddbfe766bffb3876825fd0aa8935c7b9b07a5966986aa55da2f259": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Mutable default argument causes shared state across calls, leading to unexpected accumulation; clearly unintended for a simple append function.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 223,
+    "output_tokens": 368,
+    "latency_ms": 8892.275349935517,
+    "stop_reason": "stop"
+  },
+  "e9aea81c121f433872c6b391cc25a5fd3ad57d571a56cb27aeb2d9846f1fb0e6": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Mutable default argument list is shared across calls, causing side effects and unintended item accumulation.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 221,
+    "output_tokens": 508,
+    "latency_ms": 10849.576720967889,
+    "stop_reason": "stop"
+  },
+  "0983edd7b446cfa41d5fdbc81a8c948711a0db08e37d902d584ff8edf18ccb20": {
+    "text": "[{\"line\": 2, \"severity\": \"medium\", \"category\": \"resource\", \"title\": \"File handle not closed\", \"rationale\": \"File opened but never closed, leading to a resource leak. Use a `with` statement to ensure closure even on exceptions, or call `f.close()` explicitly.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 185,
+    "output_tokens": 347,
+    "latency_ms": 8180.158757953905,
+    "stop_reason": "stop"
+  },
+  "2f5b2e4488233718fe2321d4add0e9190ebfd211473726a17308103662546cc5": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"File handle goes out of scope immediately after return, CPython reference counting closes it; no real leak.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 212,
+    "output_tokens": 555,
+    "latency_ms": 13923.4950740356,
+    "stop_reason": "stop"
+  },
+  "9f911d78547739c2e02870f122df831112b0f99807959cfe9f5a40773fa320e5": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"File handle not closed; exception in read() or many calls would leak resources.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 211,
+    "output_tokens": 648,
+    "latency_ms": 15165.481018018909,
+    "stop_reason": "stop"
+  },
+  "add7bf224f7df279e7831904c59446d400af75d118a6a926d1827cc0aefe39e9": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"File handle is never closed, leading to resource leak.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 214,
+    "output_tokens": 689,
+    "latency_ms": 15974.80117995292,
+    "stop_reason": "stop"
+  },
+  "b7c84108679692cb9d50e96ea75388e526f57148bc5563052c4ee7e8e64b44b5": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 213,
+    "output_tokens": 800,
+    "latency_ms": 19051.43679701723,
+    "stop_reason": "length"
+  },
+  "641d7fdf536db5f7f6292e0eaedc151589617b70c361aca27139102a2fd7e4a3": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 215,
+    "output_tokens": 800,
+    "latency_ms": 19130.82325202413,
+    "stop_reason": "length"
+  },
+  "ee5bd69cb3ea9aa3a6b841876c4abc578117b30e7a81e9b2556b3706f8e90b33": {
+    "text": "[{\"line\": 5, \"severity\": \"high\", \"category\": \"correctness\", \"title\": \"Return False inside loop causes early exit\", \"rationale\": \"The `return False` is incorrectly indented inside the for loop, causing the function to return False after checking only the first element. It will miss any target that appears after the first element. The statement should be unindented to after the loop so that it returns False only if the loop completes without finding the target.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 194,
+    "output_tokens": 580,
+    "latency_ms": 12380.110645084642,
+    "stop_reason": "stop"
+  },
+  "601904a8e84fb7037d40edb9b8998d55b4c41db64042f5be3f297d5232eaa2da": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"return False is inside the loop, causing early exit after the first element; target beyond index 0 is never found.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 255,
+    "output_tokens": 321,
+    "latency_ms": 8127.99545598682,
+    "stop_reason": "stop"
+  },
+  "95f9977b9a34cc1146fac7ad4617d1121d742e1636a5c6c170f8ed1f2cf57f5b": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"return False is inside the for loop, so the function returns False after checking only the first element.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 259,
+    "output_tokens": 404,
+    "latency_ms": 9401.769989985041,
+    "stop_reason": "stop"
+  },
+  "c4db51d44052cabe170914be4862f490b7783b387b03b74884ed4e296dda42f7": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"return False inside loop causes early exit on first non-matching element\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 258,
+    "output_tokens": 399,
+    "latency_ms": 9526.696559041739,
+    "stop_reason": "stop"
+  },
+  "6851cf3849fa692d3c1cad3c642071e861ec7c20e8d49aedd99f7a7359732dc5": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Return False inside loop exits after first element, causing false negatives for non-first matches.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 257,
+    "output_tokens": 480,
+    "latency_ms": 10301.453423104249,
+    "stop_reason": "stop"
+  },
+  "7ec5316e2111b8fd0d6657a85fb8da83495ef3793c17ddf41948403320f081dc": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"return False is indented inside the for loop, causing the function to return False after checking only the first element; it will miss any target that appears after the first element.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 256,
+    "output_tokens": 487,
+    "latency_ms": 11294.176024966873,
+    "stop_reason": "stop"
+  },
+  "319860ea695f39ebf0fc8370669b10ec25996ce7333b760053544962b4340030": {
+    "text": "[\n  {\n    \"line\": 2,\n    \"severity\": \"high\",\n    \"category\": \"correctness\",\n    \"title\": \"Assignment instead of comparison in condition\",\n    \"rationale\": \"Using '=' assigns true to user.isAdmin and the condition always evaluates to true, causing 'granted' to be returned unconditionally. The intended check was likely '===' or '=='.\"\n  }\n]",
+    "model": "deepseek-chat",
+    "input_tokens": 202,
+    "output_tokens": 349,
+    "latency_ms": 8135.757140000351,
+    "stop_reason": "stop"
+  },
+  "559732c94119faa290a765ab12b2dc7101577b35938a36c6243c285655437d04": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Assignment instead of comparison causes function to always return 'granted' and mutates user object unconditionally.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 237,
+    "output_tokens": 368,
+    "latency_ms": 8319.833013927564,
+    "stop_reason": "stop"
+  },
+  "ecfcd17cd2a28d645629be9c2710fc7262bdff7aaaa1696c11d2331f37e9e803": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Assignment operator '=' causes unconditional return of 'granted' and unintended mutation of user.isAdmin.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 241,
+    "output_tokens": 346,
+    "latency_ms": 8385.536285000853,
+    "stop_reason": "stop"
+  },
+  "292e1fd5e26be6a7b23991b58111ff53bcc940ce9ce9c557b1ce7965738f3d8f": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Assignment '=' instead of comparison causes unconditional 'granted', bypassing the authorization check.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 240,
+    "output_tokens": 370,
+    "latency_ms": 9181.370878010057,
+    "stop_reason": "stop"
+  },
+  "108ff6f7c997d0b73c40a8ce48c27f18ac8eccaeb11bdc9f9e8bdcd8a2934066": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Assignment in condition always true, causing unconditional 'granted' response; unit test would expose.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 239,
+    "output_tokens": 441,
+    "latency_ms": 10541.29482305143,
+    "stop_reason": "stop"
+  },
+  "1840dfed129661f3b3289c0cb3b505f6f24ba7568350fa438155100fc9bd7646": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Assignment `=` instead of comparison makes condition always truthy, so `grant` always returns 'granted' \u2014 a classic, triggerable logic error.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 238,
+    "output_tokens": 458,
+    "latency_ms": 10720.291318953969,
+    "stop_reason": "stop"
+  },
+  "bd2853418fa1e232a368f235a4523d187632e1e525c9f20329326cbb27a4fd94": {
+    "text": "[{\"line\": 3, \"severity\": \"high\", \"category\": \"correctness\", \"title\": \"Off-by-one loop bound\", \"rationale\": \"Loop condition uses <= arr.length instead of < arr.length, causing an access to arr[arr.length] which is undefined, adding undefined to s results in NaN.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 214,
+    "output_tokens": 977,
+    "latency_ms": 21415.182983037084,
+    "stop_reason": "stop"
+  },
+  "bf0b3dbaf20ff0d6c514cb8713bc95f59097f880f849580a01ea10ab12355a84": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Loop condition i <= arr.length causes access to arr[arr.length] which is undefined, leading to NaN; off-by-one error is reachable with any numeric array input.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 244,
+    "output_tokens": 266,
+    "latency_ms": 7144.237224012613,
+    "stop_reason": "stop"
+  },
+  "dc5b4e4e62b3faa805a31d4dc0797d2c0de73ee248ced35f670194885457073e": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Loop condition i <= arr.length accesses out-of-bounds element, adding undefined yields NaN for all non-empty arrays.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 243,
+    "output_tokens": 406,
+    "latency_ms": 8701.03932498023,
+    "stop_reason": "stop"
+  },
+  "cda8275db8e276ea94affff7fd8421f5345321cb66d7e58231ea7201ed9ef0a6": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Loop condition <= arr.length causes access of undefined element, making s NaN for all inputs.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 242,
+    "output_tokens": 423,
+    "latency_ms": 9668.25379000511,
+    "stop_reason": "stop"
+  },
+  "d201ccd3a6bd194fc5cd9fb51ed342ee6b7fa2f650fccc3b75a12058dcf01f0c": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Loop condition `<= arr.length` causes out-of-bounds access, adding `undefined` to `s` results in `NaN`.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 245,
+    "output_tokens": 583,
+    "latency_ms": 11205.472121015191,
+    "stop_reason": "stop"
+  },
+  "b7a05d990b8a06a844643d402a3c4e9105886807400580a8b2484c5c58b6f65e": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"The loop condition uses <= arr.length, causing an out-of-bounds access that adds undefined to the sum, which always results in NaN.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 241,
+    "output_tokens": 527,
+    "latency_ms": 12067.832187050954,
+    "stop_reason": "stop"
+  },
+  "99bab320748c77ac0fbb4013f720805b651363919af5953a6e629c284685e30b": {
+    "text": "[{\"line\": 2, \"severity\": \"high\", \"category\": \"correctness\", \"title\": \"ZeroDivisionError for empty input\", \"rationale\": \"If `xs` is an empty sequence, `len(xs)` evaluates to 0, causing a `ZeroDivisionError` when computing the division.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 176,
+    "output_tokens": 657,
+    "latency_ms": 17260.597743093967,
+    "stop_reason": "stop"
+  },
+  "b00c2530ce5134ada644cd55c5985f851302d4c954db2124633328f96f41767f": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"division by zero for empty input\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 206,
+    "output_tokens": 175,
+    "latency_ms": 4357.440053950995,
+    "stop_reason": "stop"
+  },
+  "f851f53c67342fd8848b691295d8af4c54b0e40058605ea3e0d6646a22e7b5e5": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Calling average with an empty sequence (e.g., average([])) raises ZeroDivisionError because len(xs) is 0 and division by zero is not handled.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 205,
+    "output_tokens": 161,
+    "latency_ms": 4604.173952015117,
+    "stop_reason": "stop"
+  },
+  "802cc64fd029ea2dcf00f1ba36efacdfba5d114a81c898c56496b9c3b0c1a4cd": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Calling average([]) triggers ZeroDivisionError because len(xs) is 0, making the division invalid.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 204,
+    "output_tokens": 192,
+    "latency_ms": 5109.325018944219,
+    "stop_reason": "stop"
+  },
+  "1e9a38d3ef85bd80e05c5329167b417eb2dd0d3c9ee0fadfaddb6ebfc9a57a78": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Calling average([]) immediately triggers ZeroDivisionError because len(xs) == 0 leads to division by zero.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 203,
+    "output_tokens": 248,
+    "latency_ms": 5685.981965041719,
+    "stop_reason": "stop"
+  },
+  "e6bcc0ff67949ff99c4a9159a7ac0a701d398544dc1ba6702d1829b058274e1c": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Calling average([]) raises ZeroDivisionError; no guard present.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 202,
+    "output_tokens": 391,
+    "latency_ms": 8861.511543975212,
+    "stop_reason": "stop"
+  },
+  "7fbf53a5772ae5709ae4f3c210d045efd71d93067a9e64ae34274b6fbaab65e9": {
+    "text": "[{\"line\": 2, \"severity\": \"medium\", \"category\": \"correctness\", \"title\": \"Using 'is' for integer comparison instead of '=='\", \"rationale\": \"The 'is' operator checks object identity, not value equality. For integers outside the interning range (-5 to 256), 'is' may return False even when values are equal, leading to incorrect behavior. Use '==' for numeric comparison.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 173,
+    "output_tokens": 411,
+    "latency_ms": 9153.999706031755,
+    "stop_reason": "stop"
+  },
+  "cb76ff0cbd8690b8267a03a67953aa7e7e33f7b5464fac763e5df8829cf31355": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 225,
+    "output_tokens": 800,
+    "latency_ms": 18951.890042051673,
+    "stop_reason": "length"
+  },
+  "726104566ce2587b181e6c83d608debb6ebc68028bc65612040b3154334bd41c": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Using",
+    "model": "deepseek-chat",
+    "input_tokens": 224,
+    "output_tokens": 800,
+    "latency_ms": 19436.528746969998,
+    "stop_reason": "length"
+  },
+  "2683aa27f3e66fa030ba24a73ea5a071d41f1e665f11e100016367559273caf1": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 223,
+    "output_tokens": 800,
+    "latency_ms": 20155.705236946233,
+    "stop_reason": "length"
+  },
+  "0f575c58e3065b1982537d6c822777b21a7b6254c2d8054cf0e2f9ccb7f2278e": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 226,
+    "output_tokens": 800,
+    "latency_ms": 20200.411917991005,
+    "stop_reason": "length"
+  },
+  "43e9bf83f1e6b558fa647ed5cfb8de0449d97ca8782ef857933deaa4d40775f6": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 227,
+    "output_tokens": 800,
+    "latency_ms": 20578.412899049,
+    "stop_reason": "length"
+  },
+  "1613c06c7e1c3503ff6a0ca886b03392cde2e3ab64661891b178a8f3ad9f8c8a": {
+    "text": "[\n  {\n    \"line\": 2,\n    \"severity\": \"critical\",\n    \"category\": \"correctness\",\n    \"title\": \"Missing await before fetch\",\n    \"rationale\": \"fetch returns a Promise. Without await, variable 'res' is assigned the Promise, not the Response. Calling .json() on a Promise throws TypeError because Promise has no json method. This causes the returned promise to reject, breaking the function.\"\n  }\n]",
+    "model": "deepseek-chat",
+    "input_tokens": 187,
+    "output_tokens": 479,
+    "latency_ms": 10275.447719031945,
+    "stop_reason": "stop"
+  },
+  "f462c363afb668c228e96a892124fd22717f24902e037d5c50ec4fc69aab5fbf": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Missing await causes res to be a Promise, which has no .json() method, leading to TypeError.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 232,
+    "output_tokens": 252,
+    "latency_ms": 6588.76837301068,
+    "stop_reason": "stop"
+  },
+  "9f1efd4367c7a2c09d41adc36c98591e6fef111fd4ad9852b837573a8b8e0f6c": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Calling .json() on a Promise object throws TypeError; missing await before fetch causes the assignment of a Promise instead of a Response.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 233,
+    "output_tokens": 312,
+    "latency_ms": 7865.1449349708855,
+    "stop_reason": "stop"
+  },
+  "f01731e355b9033c1b9203c183d3826c822fce4ebfa2c20f90d14f6864e3b51d": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"fetch returns a Promise, so res is a Promise; calling .json() on it throws TypeError, rejecting the returned promise.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 231,
+    "output_tokens": 356,
+    "latency_ms": 8318.790771998465,
+    "stop_reason": "stop"
+  },
+  "e56c0c6f1367babf56e71399cf750ffae1003b3cd674cc106250c86c04992610": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"fetch returns a Promise; awaiting it is required to get the Response. Without await, res is a Promise, which has no json method, causing a TypeError at runtime.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 230,
+    "output_tokens": 368,
+    "latency_ms": 8714.569328003563,
+    "stop_reason": "stop"
+  },
+  "613d384e4ade6c18a5bd5c6bd7e884097447cb5b24bfcfce433c71bd49ba1f0e": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"fetch(url) returns a Promise, res.json() is not a function on a Promise, causing a TypeError when called.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 229,
+    "output_tokens": 373,
+    "latency_ms": 9679.969504009932,
+    "stop_reason": "stop"
+  },
+  "98688543f09299bdabe26dc2adbedfeee35077af7a24e4a8ceef97a2fa3f104b": {
+    "text": "[{\"line\": 4, \"severity\": \"medium\", \"category\": \"correctness\", \"title\": \"Silent exception swallowing\", \"rationale\": \"The except clause catches all exceptions and does nothing, causing write failures to be silently lost, potentially leading to data loss or corruption without any error indication.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 192,
+    "output_tokens": 1039,
+    "latency_ms": 23332.638607011177,
+    "stop_reason": "stop"
+  },
+  "a9a0f2608be8ff2eaf30c1555b30902a6eb4f4ed5eea5208132f60cc1d4bea2c": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Silent exception swallowing can be a deliberate design choice; no evidence that ignoring write failures is unintended or causes incorrect behavior in the given context.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 218,
+    "output_tokens": 236,
+    "latency_ms": 6212.054486037232,
+    "stop_reason": "stop"
+  },
+  "04eaf00fae296a5b75b63d6d1ed29877d3fb105abc16c50a80e2ca350a1bb2a2": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"No specification states that the function must propagate exceptions; silent swallowing may be intentional, so the alleged bug is speculative.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 216,
+    "output_tokens": 618,
+    "latency_ms": 15528.189603006467,
+    "stop_reason": "stop"
+  },
+  "1fb1e1ebda4a45fafc1043b39612331639f348074471bc02695dfd2a49d2e095": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Silent swallowing may be intentional for best-effort writes; without specification requiring reliability, it's not clearly a defect.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 215,
+    "output_tokens": 605,
+    "latency_ms": 16396.155694965273,
+    "stop_reason": "stop"
+  },
+  "b3f330a27a079531b3ab67de76614470510cd44f6b2a370c4c5ee05f6cb86efa": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 214,
+    "output_tokens": 800,
+    "latency_ms": 20222.350178053603,
+    "stop_reason": "length"
+  },
+  "68448320b7a2751bef41144eca21299c509c2a65d00c6602c8519f21678b5c11": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 217,
+    "output_tokens": 800,
+    "latency_ms": 20661.050615948625,
+    "stop_reason": "length"
+  },
+  "2f297a27791a797ba2d608f7c3ead712ae7fce58b0f6844908a3de2a27165cd4": {
+    "text": "[]",
+    "model": "deepseek-chat",
+    "input_tokens": 199,
+    "output_tokens": 726,
+    "latency_ms": 17982.768432004377,
+    "stop_reason": "stop"
+  },
+  "896d689877a2933cc08f4490f49973dd135f1511e1044fe4c5428fc39deb4b5b": {
+    "text": "[]",
+    "model": "deepseek-chat",
+    "input_tokens": 178,
+    "output_tokens": 262,
+    "latency_ms": 7341.082958970219,
+    "stop_reason": "stop"
+  },
+  "9b49c233bceaa2abc37519ef3b84236ccf6b1a57f63c8a5842a16439c057442b": {
+    "text": "[{\"line\": 2, \"severity\": \"medium\", \"category\": \"correctness\", \"title\": \"initial may return whitespace if name has leading space\", \"rationale\": \"The function does not strip leading whitespace, so for a name like ' John', name[0] is a space and upper() returns a space, which is likely not a valid initial. The intended logic probably should ignore leading whitespace.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 178,
+    "output_tokens": 1130,
+    "latency_ms": 26916.767599992454,
+    "stop_reason": "stop"
+  },
+  "b63d56be388691c7b922bc6f9c0a2239cb86cb343035d19ce7db555798806c14": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Function's contract is unspecified; returning the first character including whitespace is deterministic, not a defect.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 229,
+    "output_tokens": 629,
+    "latency_ms": 15213.11651088763,
+    "stop_reason": "stop"
+  },
+  "3660b7dbfa94eccdfd72c6aed295a67587f57bc91d0ca9971ad5c6e0a5d0aeda": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"The function does not promise to strip whitespace; returning a space for an un-stripped name is not a defect.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 230,
+    "output_tokens": 657,
+    "latency_ms": 15318.92859004438,
+    "stop_reason": "stop"
+  },
+  "cb1c7326c149cab35e520e7e04976a5714e1b0273e14fddc1cdffe0ee387fc0e": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"No specification that whitespace must be stripped; function simply returns first character uppercased as designed.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 226,
+    "output_tokens": 616,
+    "latency_ms": 15688.369126059115,
+    "stop_reason": "stop"
+  },
+  "4fded1168bb27264c9f58abd4c27a2434db032daa845c2420bad69f059be58fa": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Input with leading space returns a space instead of the first letter, violating expected behavior for an initial function.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 228,
+    "output_tokens": 679,
+    "latency_ms": 16423.483839957044,
+    "stop_reason": "stop"
+  },
+  "3f2343d2f2546cc8ce5d0685fdd9f3aebf5c01cbb8f4e0f41238cf5007242cce": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 227,
+    "output_tokens": 800,
+    "latency_ms": 20704.372924985364,
+    "stop_reason": "length"
+  },
+  "e0211a9359540b818aa98eb21756b39e159635e0bd962ab411b820aaf8dbc2c1": {
+    "text": "[]",
+    "model": "deepseek-chat",
+    "input_tokens": 193,
+    "output_tokens": 343,
+    "latency_ms": 8982.132600969635,
+    "stop_reason": "stop"
+  },
+  "b874000f147f573eb1673ded1439d4bb99b2679029b2ece9d86b7481d2700532": {
+    "text": "[{\"line\": 2, \"severity\": \"medium\", \"category\": \"correctness\", \"title\": \"Missing encoding argument in open()\", \"rationale\": \"The open() call does not specify an encoding, relying on the platform default which may cause UnicodeDecodeError for files with non-ASCII characters or produce garbled text on Windows (cp1252). This can lead to incorrect config reading or crashes.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 181,
+    "output_tokens": 565,
+    "latency_ms": 15773.158032912761,
+    "stop_reason": "stop"
+  },
+  "5d98ff581b47caa7421a0f1eed8bd647c984ae0a6d2797e487b520cf18e9013e": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 230,
+    "output_tokens": 800,
+    "latency_ms": 18152.881206013262,
+    "stop_reason": "length"
+  },
+  "cbc59cd3be51a37a743c21aadc82f6d4adb57e5f069e680712b6023bc0a02886": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 228,
+    "output_tokens": 800,
+    "latency_ms": 19747.016898007132,
+    "stop_reason": "length"
+  },
+  "ad8919745159b06a86e769236f10150fe2a188f24d135d99c41f086f65ddcf39": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Using default encoding is not inherently a bug; it only causes issues if the file contains non-ASCII characters and the platform encoding differs",
+    "model": "deepseek-chat",
+    "input_tokens": 229,
+    "output_tokens": 800,
+    "latency_ms": 20602.054635994136,
+    "stop_reason": "length"
+  },
+  "e180c426ecd670b7e331aebb783dbbdb1ea21f19015ec532e37d58db1e35b13f": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 227,
+    "output_tokens": 800,
+    "latency_ms": 20637.818809016608,
+    "stop_reason": "length"
+  },
+  "1d78b85917f4c2e2e0e9a8a7bc2cf220f3cfe89042a73441216ab5b6abc1c0c9": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 226,
+    "output_tokens": 800,
+    "latency_ms": 21219.210234936327,
+    "stop_reason": "length"
+  },
+  "e53b4b75ba79e4afab2f5ca35aa85d3a9335c66eaa1ccde29b4ac2c76000a593": {
+    "text": "[{\"line\": 2, \"severity\": \"low\", \"category\": \"correctness\", \"title\": \"TypeError when xs is None\", \"rationale\": \"The function does not check if xs is None before iterating. Passing None as the first argument results in a TypeError: 'NoneType' object is not iterable.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 195,
+    "output_tokens": 914,
+    "latency_ms": 21422.741882968694,
+    "stop_reason": "stop"
+  },
+  "95c89b67a73491b80bfcdbeff746e12b6e5fa89c0ab8af759a544bbbad62400f": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Function expects an iterable; passing None is a caller error, not a defect in the code.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 224,
+    "output_tokens": 289,
+    "latency_ms": 8005.878599942662,
+    "stop_reason": "stop"
+  },
+  "fab66345285f70a8b3dcee0f8d82fb0a6a32fd7575da919c2128bab003eafb5a": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Function expects an iterable; passing None is a caller error, not a function defect.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 227,
+    "output_tokens": 348,
+    "latency_ms": 9445.756005938165,
+    "stop_reason": "stop"
+  },
+  "5febc9e90b795c4915c049540dc2f86f934341c14542792a415885f2b84941a5": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Passing None to a function expecting an iterable is a caller error; Python's default TypeError is appropriate and does not indicate a defect in the function itself.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 226,
+    "output_tokens": 444,
+    "latency_ms": 11887.932448997162,
+    "stop_reason": "stop"
+  },
+  "74e45dce4b5f17acd2d3f71a54e144df35261ef5e5bd164b475e0e9f4c882d09": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"TypeError when passing None is correct given the function expects an iterable; no guard needed unless contract specifies None handling.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 223,
+    "output_tokens": 451,
+    "latency_ms": 11914.613820030354,
+    "stop_reason": "stop"
+  },
+  "432720cfcbf5776bfbc9fbc98822ba95c129497d2ec27f376325b935e159ca4d": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"TypeError when passing None is expected behavior for a function expecting an iterable; it's a usage error, not a bug in the function.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 225,
+    "output_tokens": 712,
+    "latency_ms": 17868.588751996867,
+    "stop_reason": "stop"
+  },
+  "2100723556512556645e8f6b9856afc11565095d8b3bd052245aa21f831134d9": {
+    "text": "[{\"line\": 2, \"severity\": \"medium\", \"category\": \"correctness\", \"title\": \"Missing null/undefined check for user parameter\", \"rationale\": \"Accessing user.isAdmin when user is null or undefined throws TypeError, crashing the function. This could happen if the caller passes no argument or an unexpected value.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 200,
+    "output_tokens": 547,
+    "latency_ms": 12368.218785966747,
+    "stop_reason": "stop"
+  },
+  "a1ac51596edc48d5747c632cfb1f0f9c2fdc67dff7adeb76f0e196ed1408bfa6": {
+    "text": "{\n  \"verdict\": \"real\",\n  \"reason\": \"Passing null or undefined as argument indeed throws TypeError, making it a triggerable defect.\"\n}",
+    "model": "deepseek-chat",
+    "input_tokens": 231,
+    "output_tokens": 703,
+    "latency_ms": 16873.266058973968,
+    "stop_reason": "stop"
+  },
+  "2fcc07102fe0ab8a1132d2ac575e76301e634b0b419fbc97f415b4c048a50888": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Speculative: function's contract may require a user object; no evidence of callers passing null/undefined.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 230,
+    "output_tokens": 765,
+    "latency_ms": 17770.07010008674,
+    "stop_reason": "stop"
+  },
+  "5157ec9bf05dad4c34ca401f1567616b169dc38e0ce5e43f649ae7ebcab8b15c": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"No evidence in provided code that null/undefined can be passed; function contract may require valid input.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 229,
+    "output_tokens": 752,
+    "latency_ms": 18458.506910013966,
+    "stop_reason": "stop"
+  },
+  "5cff48ce895f0d245412131877b5b7194afcf553f3258d21b39e0ffa55bdba23": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 232,
+    "output_tokens": 800,
+    "latency_ms": 20227.173038991168,
+    "stop_reason": "length"
+  },
+  "11502ee9767b60d7a2bd6192ad4733bb1e8045a6c48c3901c80e72c78a83145a": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 233,
+    "output_tokens": 800,
+    "latency_ms": 20458.80985702388,
+    "stop_reason": "length"
+  },
+  "59a8c290262b37fae0161a37af76fda4402cdbf6959610862d2a1ff1c96313da": {
+    "text": "[{\"line\": 3, \"severity\": \"medium\", \"category\": \"correctness\", \"title\": \"Missing null/undefined check on parameter arr\", \"rationale\": \"If arr is null or undefined, accessing arr.length throws a TypeError, causing a runtime crash.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 215,
+    "output_tokens": 1234,
+    "latency_ms": 29703.95578001626,
+    "stop_reason": "stop"
+  },
+  "732dd68a305dc98f182587e301396cf952a971a01c61aa8a27a3e195f6213ac7": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"The function correctly sums an array; passing null/undefined is caller misuse, not a defect.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 232,
+    "output_tokens": 413,
+    "latency_ms": 10981.532390927896,
+    "stop_reason": "stop"
+  },
+  "d157cd2f5138b412e154c71e555bfd38f9c3a6e343fd4d97f0775629d0a0d2d0": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"The function expects an array; null/undefined are invalid inputs and throwing is acceptable\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 233,
+    "output_tokens": 496,
+    "latency_ms": 13676.710488041863,
+    "stop_reason": "stop"
+  },
+  "6815a0702fc5c9d7c116da60cdf5d1185657c4ce9e9a0ba21bba5a89febc4e30": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Function contract expects a valid array; passing null/undefined is a caller error, not a defect in total.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 234,
+    "output_tokens": 619,
+    "latency_ms": 16467.79832697939,
+    "stop_reason": "stop"
+  },
+  "2203c01ba4443309d66c4715792dee051f448ad0782c26aac4dddab173ef7a30": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Function assumes valid array input; throwing a TypeError on null/undefined is expected language behavior, not a defect\u2014caller responsibility to pass an array.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 235,
+    "output_tokens": 557,
+    "latency_ms": 18368.738446035422,
+    "stop_reason": "stop"
+  },
+  "25e1bcbdbdc0f5c2c34f1e28f804e4653191d7f916e22129b8f4e99a2b1b4cd1": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Function assumes arr is a valid",
+    "model": "deepseek-chat",
+    "input_tokens": 231,
+    "output_tokens": 800,
+    "latency_ms": 20020.009638974443,
+    "stop_reason": "length"
+  },
+  "3d617c7cf5c061d1e2d0d9b3c9a11c9151df27e228339f1892c82b99beb23ec0": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 194,
+    "output_tokens": 1500,
+    "latency_ms": 38985.87274597958,
+    "stop_reason": "length"
+  },
+  "f54275ffd932a57ef5478ec94ea145364ba756474b55429283cc80ac4c5aba9a": {
+    "text": "[]",
+    "model": "deepseek-chat",
+    "input_tokens": 174,
+    "output_tokens": 234,
+    "latency_ms": 7082.989341928624,
+    "stop_reason": "stop"
+  },
+  "9d3b790d6dd2f0e7e0ef7e8139350ae43c6139682c06ab952e2d4ecf5ff2f3a5": {
+    "text": "[]",
+    "model": "deepseek-chat",
+    "input_tokens": 188,
+    "output_tokens": 591,
+    "latency_ms": 15757.226836052723,
+    "stop_reason": "stop"
+  },
+  "03bed7d93351c067bc531f6602ca23280a9196627a11d0fbf96ceeabc1b1411b": {
+    "text": "[{\"line\": 5, \"severity\": \"high\", \"category\": \"correctness\", \"title\": \"Missing import of 'logging' module\", \"rationale\": \"The code uses 'logging.error' without importing the logging module. This will result in a NameError at runtime, which may mask the original IOError.\"}]",
+    "model": "deepseek-chat",
+    "input_tokens": 209,
+    "output_tokens": 980,
+    "latency_ms": 23687.630163971335,
+    "stop_reason": "stop"
+  },
+  "f014365cb89d9675f4d9d25f892c72f07455511e7746d276cb35f88244e0a6a4": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Missing import cannot be confirmed; snippet may not include top-level imports.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 239,
+    "output_tokens": 326,
+    "latency_ms": 8173.896296997555,
+    "stop_reason": "stop"
+  },
+  "aca41263978fc78f6e88acf9ac47da01ef35a95cf086fabe12ae722728a146ee": {
+    "text": "{\"verdict\": \"not_a_bug\", \"reason\": \"Snippet is incomplete; missing import cannot be confirmed without full file context, so the claim is speculative.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 240,
+    "output_tokens": 457,
+    "latency_ms": 11321.102689020336,
+    "stop_reason": "stop"
+  },
+  "90839ea54fab0f8f4b23f8bfd9dfd0b13691b4acc115577c36675345457e117b": {
+    "text": "{\"verdict\": \"real\", \"reason\": \"Missing import of logging module causes NameError at runtime when logging.error is called.\"}",
+    "model": "deepseek-chat",
+    "input_tokens": 238,
+    "output_tokens": 465,
+    "latency_ms": 11720.461128978059,
+    "stop_reason": "stop"
+  },
+  "4b700c352072215e7af5ac296ccb41849f61bbebad102fddfd6e1d28a02b7061": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 237,
+    "output_tokens": 800,
+    "latency_ms": 18642.4506950425,
+    "stop_reason": "length"
+  },
+  "53ee2a2d5ea8108949dd5293bf602627e9f8c2d854e77ae167bc6babeda902de": {
+    "text": "",
+    "model": "deepseek-chat",
+    "input_tokens": 236,
+    "output_tokens": 800,
+    "latency_ms": 19207.332389079966,
+    "stop_reason": "length"
+  }
+}

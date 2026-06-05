@@ -1,0 +1,7 @@
+{
+  "claim": "routing",
+  "status": "gated",
+  "reason": "needs ANTHROPIC_API_KEY + QUORUM_EVAL_LIVE=1 (multi-tier cost spread)",
+  "reproduce": "export ANTHROPIC_API_KEY=sk-ant-... && QUORUM_EVAL_LIVE=1 python evals/run_evals.py --claim routing",
+  "n_tasks": 24
+}

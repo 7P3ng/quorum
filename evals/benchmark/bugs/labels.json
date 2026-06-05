@@ -1,0 +1,186 @@
+{
+  "buggy": [
+    {
+      "id": "b01_offbyone.py",
+      "file": "b01_offbyone.py",
+      "lang": "py",
+      "bug": {
+        "line": 3,
+        "category": "correctness",
+        "summary": "range(len()+1) indexes one past the end -> IndexError"
+      }
+    },
+    {
+      "id": "b02_wrong_op.py",
+      "file": "b02_wrong_op.py",
+      "lang": "py",
+      "bug": {
+        "line": 2,
+        "category": "correctness",
+        "summary": "returns True for ODD numbers; should be == 0"
+      }
+    },
+    {
+      "id": "b03_empty_index.py",
+      "file": "b03_empty_index.py",
+      "lang": "py",
+      "bug": {
+        "line": 2,
+        "category": "correctness",
+        "summary": "name[0] raises IndexError on empty string"
+      }
+    },
+    {
+      "id": "b04_mutable_default.py",
+      "file": "b04_mutable_default.py",
+      "lang": "py",
+      "bug": {
+        "line": 1,
+        "category": "correctness",
+        "summary": "mutable default arg shared across calls -> state leaks"
+      }
+    },
+    {
+      "id": "b05_leak.py",
+      "file": "b05_leak.py",
+      "lang": "py",
+      "bug": {
+        "line": 2,
+        "category": "resource",
+        "summary": "file handle never closed -> resource leak"
+      }
+    },
+    {
+      "id": "b06_early_return.py",
+      "file": "b06_early_return.py",
+      "lang": "py",
+      "bug": {
+        "line": 5,
+        "category": "correctness",
+        "summary": "return False is inside the loop -> only checks first element"
+      }
+    },
+    {
+      "id": "b07_assign_in_cond.js",
+      "file": "b07_assign_in_cond.js",
+      "lang": "js",
+      "bug": {
+        "line": 2,
+        "category": "security",
+        "summary": "assignment '=' in condition always grants; should be ==="
+      }
+    },
+    {
+      "id": "b08_loop_bound.js",
+      "file": "b08_loop_bound.js",
+      "lang": "js",
+      "bug": {
+        "line": 3,
+        "category": "correctness",
+        "summary": "i <= length reads arr[length] (undefined) -> NaN"
+      }
+    },
+    {
+      "id": "b09_div_zero.py",
+      "file": "b09_div_zero.py",
+      "lang": "py",
+      "bug": {
+        "line": 2,
+        "category": "correctness",
+        "summary": "ZeroDivisionError when xs is empty"
+      }
+    },
+    {
+      "id": "b10_is_value.py",
+      "file": "b10_is_value.py",
+      "lang": "py",
+      "bug": {
+        "line": 2,
+        "category": "correctness",
+        "summary": "'is' compares identity; ints > 256 may not be cached -> wrong"
+      }
+    },
+    {
+      "id": "b11_missing_await.js",
+      "file": "b11_missing_await.js",
+      "lang": "js",
+      "bug": {
+        "line": 2,
+        "category": "correctness",
+        "summary": "missing await; res is a Promise, res.json is undefined"
+      }
+    },
+    {
+      "id": "b12_silent_except.py",
+      "file": "b12_silent_except.py",
+      "lang": "py",
+      "bug": {
+        "line": 4,
+        "category": "correctness",
+        "summary": "bare except: pass silently swallows write failures"
+      }
+    }
+  ],
+  "clean": [
+    {
+      "id": "c01_sum_ok.py",
+      "file": "c01_sum_ok.py",
+      "lang": "py"
+    },
+    {
+      "id": "c02_even_ok.py",
+      "file": "c02_even_ok.py",
+      "lang": "py"
+    },
+    {
+      "id": "c03_initial_ok.py",
+      "file": "c03_initial_ok.py",
+      "lang": "py"
+    },
+    {
+      "id": "c04_default_ok.py",
+      "file": "c04_default_ok.py",
+      "lang": "py"
+    },
+    {
+      "id": "c05_context_ok.py",
+      "file": "c05_context_ok.py",
+      "lang": "py"
+    },
+    {
+      "id": "c06_contains_ok.py",
+      "file": "c06_contains_ok.py",
+      "lang": "py"
+    },
+    {
+      "id": "c07_strict_eq.js",
+      "file": "c07_strict_eq.js",
+      "lang": "js"
+    },
+    {
+      "id": "c08_loop_ok.js",
+      "file": "c08_loop_ok.js",
+      "lang": "js"
+    },
+    {
+      "id": "c09_avg_guard.py",
+      "file": "c09_avg_guard.py",
+      "lang": "py"
+    },
+    {
+      "id": "c10_eq_ok.py",
+      "file": "c10_eq_ok.py",
+      "lang": "py"
+    },
+    {
+      "id": "c11_await_ok.js",
+      "file": "c11_await_ok.js",
+      "lang": "js"
+    },
+    {
+      "id": "c12_handled_except.py",
+      "file": "c12_handled_except.py",
+      "lang": "py"
+    }
+  ]
+}

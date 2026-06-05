@@ -1,0 +1,172 @@
+{
+  "tasks": [
+    {
+      "id": "r01",
+      "kind": "factual",
+      "prompt": "What is the capital of France? Answer with one word.",
+      "difficulty": 1,
+      "gold": "paris"
+    },
+    {
+      "id": "r02",
+      "kind": "transform",
+      "prompt": "Reverse this string and output only the result: orchestrator",
+      "difficulty": 1,
+      "gold": "rotartsehcro"
+    },
+    {
+      "id": "r03",
+      "kind": "arith",
+      "prompt": "Compute 17 * 23. Output only the number.",
+      "difficulty": 1,
+      "gold": "391"
+    },
+    {
+      "id": "r04",
+      "kind": "code",
+      "prompt": "In Python, what does len('quorum') evaluate to? Output only the number.",
+      "difficulty": 1,
+      "gold": "6"
+    },
+    {
+      "id": "r05",
+      "kind": "factual",
+      "prompt": "Which planet is known as the Red Planet? One word.",
+      "difficulty": 1,
+      "gold": "mars"
+    },
+    {
+      "id": "r06",
+      "kind": "transform",
+      "prompt": "Convert to uppercase, output only the result: deepseek",
+      "difficulty": 1,
+      "gold": "DEEPSEEK"
+    },
+    {
+      "id": "r07",
+      "kind": "arith",
+      "prompt": "What is 144 divided by 12? Output only the number.",
+      "difficulty": 2,
+      "gold": "12"
+    },
+    {
+      "id": "r08",
+      "kind": "code",
+      "prompt": "What is the output of: print(2 ** 10) in Python? Output only the number.",
+      "difficulty": 2,
+      "gold": "1024"
+    },
+    {
+      "id": "r09",
+      "kind": "factual",
+      "prompt": "What gas do plants primarily absorb for photosynthesis? Two words.",
+      "difficulty": 2,
+      "gold": "carbon dioxide"
+    },
+    {
+      "id": "r10",
+      "kind": "transform",
+      "prompt": "Sort these numbers ascending, comma-separated, no spaces: 3,1,2",
+      "difficulty": 2,
+      "gold": "1,2,3"
+    },
+    {
+      "id": "r11",
+      "kind": "arith",
+      "prompt": "If a train travels 60 km in 1.5 hours, what is its speed in km/h? Number only.",
+      "difficulty": 3,
+      "gold": "40"
+    },
+    {
+      "id": "r12",
+      "kind": "code",
+      "prompt": "What does this return: sum([i for i in range(5)]) in Python? Number only.",
+      "difficulty": 3,
+      "gold": "10"
+    },
+    {
+      "id": "r13",
+      "kind": "reason",
+      "prompt": "Tom is older than Sara. Sara is older than Bob. Who is the youngest? One word.",
+      "difficulty": 3,
+      "gold": "bob"
+    },
+    {
+      "id": "r14",
+      "kind": "factual",
+      "prompt": "In which year did the first human land on the Moon? Year only.",
+      "difficulty": 2,
+      "gold": "1969"
+    },
+    {
+      "id": "r15",
+      "kind": "transform",
+      "prompt": "Count the vowels in 'verification'. Output only the number.",
+      "difficulty": 3,
+      "gold": "5"
+    },
+    {
+      "id": "r16",
+      "kind": "arith",
+      "prompt": "What is 15% of 200? Output only the number.",
+      "difficulty": 3,
+      "gold": "30"
+    },
+    {
+      "id": "r17",
+      "kind": "code",
+      "prompt": "What is the result of bool(0) or bool('') or bool([]) in Python? True or False?",
+      "difficulty": 3,
+      "gold": "false"
+    },
+    {
+      "id": "r18",
+      "kind": "reason",
+      "prompt": "A bat and ball cost $1.10. The bat costs $1 more than the ball. How much is the ball in cents? Number only.",
+      "difficulty": 4,
+      "gold": "5"
+    },
+    {
+      "id": "r19",
+      "kind": "reason",
+      "prompt": "If all Bloops are Razzies and all Razzies are Lazzies, are all Bloops definitely Lazzies? Yes or No.",
+      "difficulty": 4,
+      "gold": "yes"
+    },
+    {
+      "id": "r20",
+      "kind": "code",
+      "prompt": "In Python, what does list(range(2, 10, 3)) produce? Output the list exactly.",
+      "difficulty": 4,
+      "gold": "[2, 5, 8]"
+    },
+    {
+      "id": "r21",
+      "kind": "arith",
+      "prompt": "What is the next number: 2, 6, 12, 20, 30, __ ? Number only.",
+      "difficulty": 4,
+      "gold": "42"
+    },
+    {
+      "id": "r22",
+      "kind": "reason",
+      "prompt": "I have 3 apples and eat 1, then buy a bag of 6 and give away 2. How many apples now? Number only.",
+      "difficulty": 4,
+      "gold": "6"
+    },
+    {
+      "id": "r23",
+      "kind": "reason",
+      "prompt": "Which weighs more: a kilogram of feathers or a kilogram of steel? One word: same, feathers, or steel.",
+      "difficulty": 5,
+      "gold": "same"
+    },
+    {
+      "id": "r24",
+      "kind": "reason",
+      "prompt": "A farmer has 17 sheep. All but 9 run away. How many remain? Number only.",
+      "difficulty": 5,
+      "gold": "9"
+    }
+  ]
+}
