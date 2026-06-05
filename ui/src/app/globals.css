@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-bg: #0A0A0B;
+    --color-surface-1: #111214;
+    --color-surface-2: #16181C;
+    --color-surface-3: #1C1F24;
+    --color-border: rgba(255, 255, 255, 0.07);
+    --color-border-strong: rgba(255, 255, 255, 0.12);
+
+    --color-accent: #00C9B1;
+    --color-accent-dim: rgba(0, 201, 177, 0.12);
+
+    --color-text-primary: #F0F2F5;
+    --color-text-secondary: #8A9099;
+    --color-text-tertiary: #555B66;
+
+    --color-tier-deepseek: #6B8CFF;
+    --color-tier-haiku: #4ECDC4;
+    --color-tier-sonnet: #A8C4FF;
+    --color-tier-opus: #D4A8FF;
+
+    --color-tier-deepseek-bg: rgba(107, 140, 255, 0.12);
+    --color-tier-haiku-bg: rgba(78, 205, 196, 0.12);
+    --color-tier-sonnet-bg: rgba(168, 196, 255, 0.10);
+    --color-tier-opus-bg: rgba(212, 168, 255, 0.12);
+
+    --color-ok: #4ADE80;
+    --color-ok-bg: rgba(74, 222, 128, 0.10);
+    --color-warn: #F59E0B;
+    --color-warn-bg: rgba(245, 158, 11, 0.12);
+    --color-error: #F87171;
+    --color-error-bg: rgba(248, 113, 113, 0.12);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .font-mono,
+  code,
+  pre {
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
