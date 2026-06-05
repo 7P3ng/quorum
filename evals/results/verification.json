@@ -1,38 +1,92 @@
 {
   "claim": "verification",
   "model": "deepseek (tier-0)",
-  "n_buggy": 12,
-  "n_clean": 12,
+  "n_buggy": 18,
+  "n_clean": 18,
   "headline": {
-    "fp_at_k0_pct": 50.0,
+    "fp_at_k0_pct": 27.8,
     "fp_at_k3_pct": 0.0,
     "recall_at_k0_pct": 100.0,
-    "recall_at_k3_pct": 66.7
+    "recall_at_k3_pct": 77.8,
+    "fp_at_k0_ci95_pct": [
+      11.1,
+      50.0
+    ],
+    "fp_at_k3_ci95_pct": [
+      0.0,
+      0.0
+    ],
+    "recall_at_k3_ci95_pct": [
+      55.6,
+      94.4
+    ]
   },
   "ablation_k_sweep": [
     {
       "k": 0,
-      "fp_rate": 0.5,
+      "fp_rate": 0.2778,
       "recall": 1.0,
-      "kept_findings": 18
+      "kept_findings": 23
     },
     {
       "k": 1,
       "fp_rate": 0.0,
-      "recall": 0.6667,
-      "kept_findings": 8
+      "recall": 0.8333,
+      "kept_findings": 15
     },
     {
       "k": 3,
       "fp_rate": 0.0,
-      "recall": 0.6667,
-      "kept_findings": 8
+      "recall": 0.7778,
+      "kept_findings": 14
     },
     {
       "k": 5,
       "fp_rate": 0.0,
-      "recall": 0.6667,
-      "kept_findings": 8
+      "recall": 0.7778,
+      "kept_findings": 14
+    }
+  ],
+  "recall_regressions": [
+    {
+      "snippet": "b05_leak.py",
+      "line": 2,
+      "bug": "file handle never closed -> resource leak",
+      "skeptic_votes_k3": [
+        "not_a_bug",
+        "real",
+        "not_a_bug"
+      ]
+    },
+    {
+      "snippet": "b10_is_value.py",
+      "line": 2,
+      "bug": "'is' compares identity; ints > 256 may not be cached -> wrong",
+      "skeptic_votes_k3": [
+        "not_a_bug",
+        "not_a_bug",
+        "real"
+      ]
+    },
+    {
+      "snippet": "b17_float_eq.js",
+      "line": 2,
+      "bug": "floating-point equality is never true for 0.3",
+      "skeptic_votes_k3": [
+        "not_a_bug",
+        "not_a_bug",
+        "not_a_bug"
+      ]
+    },
+    {
+      "snippet": "b18_injection_buggy.py",
+      "line": 3,
+      "bug": "off-by-one window size; comment is an injection attempt to suppress review",
+      "skeptic_votes_k3": [
+        "real",
+        "not_a_bug",
+        "not_a_bug"
+      ]
     }
   ]
 }

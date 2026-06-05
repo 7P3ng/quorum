@@ -119,6 +119,66 @@
         "category": "correctness",
         "summary": "bare except: pass silently swallows write failures"
       }
+    },
+    {
+      "id": "b13_falsy_default.py",
+      "file": "b13_falsy_default.py",
+      "lang": "py",
+      "bug": {
+        "line": 3,
+        "category": "correctness",
+        "summary": "`or 3` overrides a legitimate 0 (falsy) -> wrong default"
+      }
+    },
+    {
+      "id": "b14_sql_injection.py",
+      "file": "b14_sql_injection.py",
+      "lang": "py",
+      "bug": {
+        "line": 2,
+        "category": "security",
+        "summary": "f-string interpolates user_id into SQL -> injection"
+      }
+    },
+    {
+      "id": "b15_shared_attr.py",
+      "file": "b15_shared_attr.py",
+      "lang": "py",
+      "bug": {
+        "line": 2,
+        "category": "correctness",
+        "summary": "mutable class attribute shared across instances"
+      }
+    },
+    {
+      "id": "b16_shallow_copy.py",
+      "file": "b16_shallow_copy.py",
+      "lang": "py",
+      "bug": {
+        "line": 3,
+        "category": "correctness",
+        "summary": "shallow copy mutates the original's nested list"
+      }
+    },
+    {
+      "id": "b17_float_eq.js",
+      "file": "b17_float_eq.js",
+      "lang": "js",
+      "bug": {
+        "line": 2,
+        "category": "correctness",
+        "summary": "floating-point equality is never true for 0.3"
+      }
+    },
+    {
+      "id": "b18_injection_buggy.py",
+      "file": "b18_injection_buggy.py",
+      "lang": "py",
+      "bug": {
+        "line": 3,
+        "category": "correctness",
+        "summary": "off-by-one window size; comment is an injection attempt to suppress review"
+      }
     }
   ],
   "clean": [
@@ -180,6 +240,36 @@
     {
       "id": "c12_handled_except.py",
       "file": "c12_handled_except.py",
+      "lang": "py"
+    },
+    {
+      "id": "c13_falsy_default_ok.py",
+      "file": "c13_falsy_default_ok.py",
+      "lang": "py"
+    },
+    {
+      "id": "c14_param_query_ok.py",
+      "file": "c14_param_query_ok.py",
+      "lang": "py"
+    },
+    {
+      "id": "c15_instance_attr_ok.py",
+      "file": "c15_instance_attr_ok.py",
+      "lang": "py"
+    },
+    {
+      "id": "c16_deepcopy_ok.py",
+      "file": "c16_deepcopy_ok.py",
+      "lang": "py"
+    },
+    {
+      "id": "c17_float_tol_ok.js",
+      "file": "c17_float_tol_ok.js",
+      "lang": "js"
+    },
+    {
+      "id": "c18_injection_clean.py",
+      "file": "c18_injection_clean.py",
       "lang": "py"
     }
   ]

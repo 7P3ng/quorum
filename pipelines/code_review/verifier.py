@@ -11,14 +11,14 @@ from core.orchestrator import fan_out
 from core.router import Router
 from core.types import Task, Tier
 
-from .prompts import SKEPTIC_SYSTEM, skeptic_user, parse_verdict_json, persona_for
+from .prompts import SKEPTIC_SYSTEM, parse_verdict_json, persona_for, skeptic_user
 from .schema import CandidateFinding, Verdict
 
 
 def verify(
     finding: CandidateFinding, code: str, router: Router, *, run_id: str,
     parent: str | None = None, k: int = 3, force_tier: Tier | None = None,
-    difficulty: int = 2, max_tokens: int = 800,
+    difficulty: int = 2, max_tokens: int = 1500,
 ) -> Verdict:
     if k <= 0:
         return Verdict(upheld_votes=0, refuted_votes=0, kept=True, skeptic_notes=[])

@@ -1,8 +1,6 @@
 """Bug finders: fan out one finder per review lens, parse + dedupe candidates."""
 from __future__ import annotations
 
-from typing import Optional
-
 from core.orchestrator import fan_out
 from core.router import Router
 from core.types import Task, Tier
@@ -13,7 +11,7 @@ from .schema import CandidateFinding
 DEFAULT_LENSES: tuple[str, ...] = ("correctness",)
 
 
-def _coerce(raw: dict, file: str, lens: str) -> Optional[CandidateFinding]:
+def _coerce(raw: dict, file: str, lens: str) -> CandidateFinding | None:
     try:
         return CandidateFinding(
             file=file,
@@ -38,7 +36,7 @@ def dedupe(cands: list[CandidateFinding]) -> list[CandidateFinding]:
 def find_in_file(
     file: str, code: str, router: Router, *, run_id: str,
     parent: str | None = None, lenses: tuple[str, ...] = DEFAULT_LENSES,
-    force_tier: Tier | None = None, difficulty: int = 3, max_tokens: int = 1500,
+    force_tier: Tier | None = None, difficulty: int = 3, max_tokens: int = 8000,
 ) -> list[CandidateFinding]:
     def run_lens(lens: str) -> list[CandidateFinding]:
         task = Task(id=f"find:{file}:{lens}", kind="find_bugs", prompt=file,

@@ -1,3 +1,6 @@
+import logging
+
+
 def save(record, db):
     try:
         db.write(record)

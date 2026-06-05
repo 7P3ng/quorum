@@ -1,6 +1,6 @@
 import pytest
 
-from evals.grade import normalize_text, routing_correct, fp_rate, recall, bug_detected
+from evals.grade import bootstrap_ci, bug_detected, fp_rate, recall, routing_correct
 
 
 def test_routing_correct_contains():
@@ -30,3 +30,11 @@ def test_recall():
 def test_bug_detected_tolerance():
     assert bug_detected([3, 7], 4, tol=2)        # 3 within 2 of 4
     assert not bug_detected([10], 4, tol=2)
+
+
+def test_bootstrap_ci_is_seeded_and_brackets_mean():
+    flags = [True] * 6 + [False] * 6           # mean 0.5
+    lo, hi = bootstrap_ci(flags, iters=500, seed=0)
+    assert lo <= 0.5 <= hi
+    assert bootstrap_ci(flags, iters=500, seed=0) == bootstrap_ci(flags, iters=500, seed=0)
+    assert bootstrap_ci([True, True, True])[0] == 1.0  # all-true -> CI pinned at 1.0

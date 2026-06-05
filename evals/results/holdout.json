@@ -1,0 +1,34 @@
+{
+  "target": "ratelimit.py",
+  "model": "deepseek (tier-0)",
+  "n_candidates": 4,
+  "n_kept": 3,
+  "ground_truth_bugs": [
+    "RateLimiter.allow: tokens never capped at capacity (burst overflow)",
+    "LRUCache.get: hit does not update recency",
+    "LRUCache.put: evicts most-recent instead of least-recent"
+  ],
+  "kept_findings": [
+    {
+      "line": 20,
+      "severity": "medium",
+      "category": "correctness",
+      "title": "Token bucket capacity not enforced",
+      "votes": "3-0"
+    },
+    {
+      "line": 37,
+      "severity": "high",
+      "category": "correctness",
+      "title": "LRU cache get does not update access order",
+      "votes": "3-0"
+    },
+    {
+      "line": 44,
+      "severity": "high",
+      "category": "correctness",
+      "title": "Eviction pops the newest key instead of the oldest",
+      "votes": "3-0"
+    }
+  ]
+}

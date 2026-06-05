@@ -40,4 +40,18 @@ def recall(detect_flags: list[bool]) -> float:
 
 
 def bug_detected(kept_lines: list[int], bug_line: int, tol: int = 2) -> bool:
-    return any(abs(int(l) - int(bug_line)) <= tol for l in kept_lines)
+    return any(abs(int(ln) - int(bug_line)) <= tol for ln in kept_lines)
+
+
+def bootstrap_ci(flags: list[bool], *, iters: int = 2000, seed: int = 0,
+                 alpha: float = 0.05) -> tuple[float, float]:
+    """Percentile bootstrap CI for the mean of a 0/1 list. Seeded for reproducibility."""
+    import random
+    if not flags:
+        return (0.0, 0.0)
+    rng = random.Random(seed)
+    n = len(flags)
+    means = sorted(sum(flags[rng.randrange(n)] for _ in range(n)) / n for _ in range(iters))
+    lo = means[int((alpha / 2) * iters)]
+    hi = means[min(iters - 1, int((1 - alpha / 2) * iters))]
+    return (round(lo, 4), round(hi, 4))

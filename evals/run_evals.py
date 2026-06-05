@@ -20,19 +20,22 @@ import argparse
 import json
 import os
 import sys
-from typing import Any, Optional
 
 # allow `python evals/run_evals.py` to import the package without install
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from core.model_client import ModelClient, RecordedClient, prompt_key
-from core.router import Router, default_policy
+from core.router import Router
 from core.tracing import TraceStore
 from core.types import Task, Tier
-
-from pipelines.code_review.finder import find_in_file, DEFAULT_LENSES
-from pipelines.code_review.prompts import SKEPTIC_SYSTEM, skeptic_user, parse_verdict_json, persona_for
 from evals import grade
+from pipelines.code_review.finder import DEFAULT_LENSES, find_in_file
+from pipelines.code_review.prompts import (
+    SKEPTIC_SYSTEM,
+    parse_verdict_json,
+    persona_for,
+    skeptic_user,
+)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BUGS_DIR = os.path.join(ROOT, "evals", "benchmark", "bugs")
@@ -137,10 +140,36 @@ def collect_verification_raw(router: Router, code: dict, labels: dict,
     return raw
 
 
+def _pct_ci(flags: list[bool], seed: int) -> list[float]:
+    lo, hi = grade.bootstrap_ci(flags, seed=seed)
+    return [round(lo * 100, 1), round(hi * 100, 1)]
+
+
+def _recall_regressions(buggy: list[dict]) -> list[dict]:
+    """Real bugs detected at K=0 but dropped by verification at K=3.
+
+    Turns the recall trade-off into an auditable list (claim #2's honest cost)."""
+    out = []
+    for r in buggy:
+        if not r.get("bug"):
+            continue
+        bl = r["bug"]["line"]
+        matching = [c for c in r["candidates"] if abs(c["line"] - bl) <= 2]
+        if not matching:
+            continue
+        if not any(_kept_at_k(c["votes"], 3) for c in matching):
+            worst = min(matching, key=lambda c: c["votes"][:3].count("real"))
+            out.append({"snippet": r["snippet"], "line": bl,
+                        "bug": r["bug"]["summary"],
+                        "skeptic_votes_k3": worst["votes"][:3]})
+    return out
+
+
 def compute_verification_table(raw: list[dict]) -> dict:
     buggy = [r for r in raw if r["buggy"]]
     clean = [r for r in raw if not r["buggy"]]
     rows = []
+    flags_by_k: dict[int, tuple[list[bool], list[bool]]] = {}
     for k in K_SWEEP:
         clean_flags, detect_flags, kept_total = [], [], 0
         for r in clean:
@@ -152,6 +181,7 @@ def compute_verification_table(raw: list[dict]) -> dict:
             kept_total += len(kept)
             lines = [c["line"] for c in kept]
             detect_flags.append(grade.bug_detected(lines, r["bug"]["line"]) if r["bug"] else False)
+        flags_by_k[k] = (clean_flags, detect_flags)
         rows.append({"k": k,
                      "fp_rate": round(grade.fp_rate(clean_flags), 4),
                      "recall": round(grade.recall(detect_flags), 4),
@@ -165,8 +195,12 @@ def compute_verification_table(raw: list[dict]) -> dict:
             "headline": {"fp_at_k0_pct": round(fp0 * 100, 1),
                          "fp_at_k3_pct": round(fp3 * 100, 1),
                          "recall_at_k0_pct": round(rec0 * 100, 1),
-                         "recall_at_k3_pct": round(rec3 * 100, 1)},
-            "ablation_k_sweep": rows}
+                         "recall_at_k3_pct": round(rec3 * 100, 1),
+                         "fp_at_k0_ci95_pct": _pct_ci(flags_by_k[0][0], seed=1),
+                         "fp_at_k3_ci95_pct": _pct_ci(flags_by_k[3][0], seed=3),
+                         "recall_at_k3_ci95_pct": _pct_ci(flags_by_k[3][1], seed=5)},
+            "ablation_k_sweep": rows,
+            "recall_regressions": _recall_regressions(buggy)}
 
 
 def _estimate_verify_cost(n_snippets: int) -> tuple[int, float]:
@@ -204,7 +238,7 @@ def run_verify(live: bool, max_usd: float, force: bool) -> dict:
         # produce zeros. We fail loud below if any fixture is missing.
         client = RecordedClient(fixtures, strict=False)
 
-    clients = {t: client for t in Tier}      # all tiers share the DeepSeek-backed client
+    clients: dict[Tier, ModelClient] = {t: client for t in Tier}  # all tiers -> DeepSeek client
     router = Router(clients, store, max_concurrency=6)
     raw = collect_verification_raw(router, code, labels, force_tier=Tier.DEEPSEEK)
 
@@ -230,14 +264,21 @@ def run_verify(live: bool, max_usd: float, force: bool) -> dict:
 
 def _write_verification_md(t: dict) -> None:
     h = t["headline"]
+    ci0, ci3 = h["fp_at_k0_ci95_pct"], h["fp_at_k3_ci95_pct"]
+    rci = h["recall_at_k3_ci95_pct"]
     lines = [
         "# Claim 2 — Adversarial verification cuts false positives",
         "",
-        f"Model: **{t['model']}** · benchmark: {t['n_buggy']} buggy + {t['n_clean']} clean snippets.",
+        f"Model: **{t['model']}** · benchmark: {t['n_buggy']} buggy + {t['n_clean']} clean "
+        f"snippets (incl. subtle bugs + prompt-injection traps).",
         "",
         f"**Headline:** K=3 adversarial verification cut the false-positive rate on clean "
         f"code from **{h['fp_at_k0_pct']}% → {h['fp_at_k3_pct']}%** "
         f"(recall on buggy code {h['recall_at_k0_pct']}% → {h['recall_at_k3_pct']}%).",
+        "",
+        f"95% bootstrap CIs: FP@K0 [{ci0[0]}, {ci0[1]}]%, FP@K3 [{ci3[0]}, {ci3[1]}]%, "
+        f"recall@K3 [{rci[0]}, {rci[1]}]% (n={t['n_clean']} clean / {t['n_buggy']} buggy; "
+        "small-sample — read directionally).",
         "",
         "## Ablation — K sweep",
         "",
@@ -248,6 +289,18 @@ def _write_verification_md(t: dict) -> None:
         lines.append(f"| {r['k']} | {r['fp_rate']*100:.1f}% | {r['recall']*100:.1f}% | {r['kept_findings']} |")
     lines += ["", "K=0 = keep every candidate (no verification). Ties / failed skeptics "
               "resolve toward *refute*.", ""]
+    regs = t.get("recall_regressions", [])
+    lines += ["## Recall cost — real bugs dropped by verification", "",
+              f"{len(regs)} real bug(s) found at K=0 were refuted at K=3 (the honest price "
+              "of the conservative bias):", ""]
+    if regs:
+        lines.append("| Snippet | Line | Bug | K=3 skeptic votes |")
+        lines.append("|---|---:|---|---|")
+        for r in regs:
+            lines.append(f"| {r['snippet']} | {r['line']} | {r['bug']} | {r['skeptic_votes_k3']} |")
+    else:
+        lines.append("_None — verification dropped no real bugs on this run._")
+    lines.append("")
     open(os.path.join(RESULTS_DIR, "verification.md"), "w").write("\n".join(lines))
 
 
@@ -284,7 +337,8 @@ def run_routing(live: bool, max_usd: float, force: bool) -> dict:
 
     store = TraceStore(_trace_db())
     anth = AnthropicClient()
-    clients = {Tier.OPUS: anth, Tier.SONNET: anth, Tier.HAIKU: anth, Tier.DEEPSEEK: DeepSeekClient()}
+    clients: dict[Tier, ModelClient] = {Tier.OPUS: anth, Tier.SONNET: anth,
+                                        Tier.HAIKU: anth, Tier.DEEPSEEK: DeepSeekClient()}
     router = Router(clients, store, max_concurrency=4)
 
     def grade_task(task, force_tier) -> tuple[bool, float, str]:
@@ -293,28 +347,29 @@ def run_routing(live: bool, max_usd: float, force: bool) -> dict:
                            prompt=task.prompt, run_id=run_id, max_tokens=256, force_tier=force_tier)
         return grade.routing_correct(task.gold, resp.text), resp.cost_usd, (resp.tier.name if resp.tier else "?")
 
-    base_ok = base_cost = tier_ok = tier_cost = 0
+    base_ok = tier_ok = 0
+    base_cost = tier_cost = 0.0
     tier_hist: dict[str, int] = {}
     for task in tasks:
         ok_o, c_o, _ = grade_task(task, Tier.OPUS)
-        base_ok += ok_o; base_cost += c_o
+        base_ok += ok_o
+        base_cost += c_o
         ok_t, c_t, tname = grade_task(task, None)  # policy-routed
-        tier_ok += ok_t; tier_cost += c_t
+        tier_ok += ok_t
+        tier_cost += c_t
         tier_hist[tname] = tier_hist.get(tname, 0) + 1
 
     n = len(tasks)
+    h = {
+        "opus_success_pct": round(100 * base_ok / n, 1),
+        "tiered_success_pct": round(100 * tier_ok / n, 1),
+        "quality_retained_pct": round(100 * (tier_ok / base_ok), 1) if base_ok else 0.0,
+        "cost_fraction_pct": round(100 * (tier_cost / base_cost), 1) if base_cost else 0.0,
+        "opus_cost_usd": round(base_cost, 4), "tiered_cost_usd": round(tier_cost, 4)}
     table = {"claim": "routing", "status": "measured", "model": "anthropic tiers + deepseek",
-             "n_tasks": n,
-             "headline": {
-                 "opus_success_pct": round(100 * base_ok / n, 1),
-                 "tiered_success_pct": round(100 * tier_ok / n, 1),
-                 "quality_retained_pct": round(100 * (tier_ok / base_ok), 1) if base_ok else 0.0,
-                 "cost_fraction_pct": round(100 * (tier_cost / base_cost), 1) if base_cost else 0.0,
-                 "opus_cost_usd": round(base_cost, 4), "tiered_cost_usd": round(tier_cost, 4)},
-             "tier_distribution": tier_hist}
+             "n_tasks": n, "headline": h, "tier_distribution": tier_hist}
     os.makedirs(RESULTS_DIR, exist_ok=True)
     json.dump(table, open(os.path.join(RESULTS_DIR, "routing.json"), "w"), indent=2)
-    h = table["headline"]
     open(os.path.join(RESULTS_DIR, "routing.md"), "w").write(
         "# Claim 1 — Tiered routing holds quality at lower cost\n\n"
         f"Tiered routing held **{h['quality_retained_pct']}%** of single-Opus success "
@@ -325,7 +380,7 @@ def run_routing(live: bool, max_usd: float, force: bool) -> dict:
 
 
 # ------------------------------------------------------------------------- main
-def main(argv: Optional[list[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Quorum eval harness")
     ap.add_argument("--claim", choices=["verify", "routing", "all"], default="all")
     ap.add_argument("--force", action="store_true", help="bypass the cost cap")

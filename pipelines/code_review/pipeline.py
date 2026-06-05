@@ -8,14 +8,14 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass, field
-from typing import Optional
 
+from core.model_client import ModelClient
 from core.orchestrator import fan_out
 from core.router import Router
-from core.types import Tier
+from core.types import RateLimitError, Tier
 
 from .finder import DEFAULT_LENSES, find_in_file
-from .schema import CandidateFinding, VerifiedFinding, Verdict
+from .schema import CandidateFinding, Verdict, VerifiedFinding
 from .verifier import verify
 
 
@@ -29,7 +29,7 @@ class CodeReviewResult:
 
 
 def run_code_review(
-    target: dict[str, str], router: Router, *, run_id: Optional[str] = None,
+    target: dict[str, str], router: Router, *, run_id: str | None = None,
     k: int = 3, lenses: tuple[str, ...] = DEFAULT_LENSES,
     force_tier: Tier | None = None,
 ) -> CodeReviewResult:
@@ -90,6 +90,7 @@ _DEMO_TARGET = {
 def _demo_router():
     from core.model_client import FakeClient
     from core.tracing import TraceStore
+
     from .prompts import FINDER_SYSTEM, SKEPTIC_SYSTEM
 
     def responder(model, system, messages, max_tokens):
@@ -108,7 +109,7 @@ def _demo_router():
         return "[]"
 
     store = TraceStore("traces.db")
-    clients = {t: FakeClient(responder) for t in Tier}
+    clients: dict[Tier, ModelClient] = {t: FakeClient(responder) for t in Tier}
     return Router(clients, store)
 
 
@@ -129,11 +130,49 @@ def _demo() -> None:
     print("\nTrace written to traces.db. Run `make export && make ui-dev` to view it.")
 
 
+def _fault_demo() -> None:
+    """Demonstrate graceful degradation: tier-0 (DeepSeek) rate-limits on every call,
+    the router falls back up the ladder to Haiku, and the recovery is recorded on the
+    trace (rate_limited_on / fell_back_to / retries) — the run still succeeds."""
+    from core.model_client import FakeClient
+    from core.tracing import TraceStore
+
+    class _RateLimited:
+        def complete(self, **kw):
+            raise RateLimitError("simulated 429 from tier-0")
+
+    from .prompts import FINDER_SYSTEM, SKEPTIC_SYSTEM
+
+    def responder(model, system, messages, max_tokens):
+        if system == FINDER_SYSTEM:
+            return ('[{"line": 3, "severity": "high", "category": "correctness",'
+                    ' "title": "Off-by-one in range", "rationale": "indexes past end"}]')
+        if system == SKEPTIC_SYSTEM:
+            return '{"verdict": "real", "reason": "raises IndexError"}'
+        return "[]"
+
+    ok = FakeClient(responder)
+    clients: dict[Tier, ModelClient] = {Tier.DEEPSEEK: _RateLimited(), Tier.HAIKU: ok,
+                                        Tier.SONNET: ok, Tier.OPUS: ok}
+    router = Router(clients, TraceStore("traces.db"))
+    res = run_code_review(_DEMO_TARGET, router, k=3, force_tier=Tier.DEEPSEEK)
+    spans = router.store.query(res.run_id)
+    recovered = sum(1 for s in spans if s["attrs"].get("fell_back_to"))
+    print(f"run_id={res.run_id}")
+    print(f"{recovered} calls rate-limited on DeepSeek and recovered via fallback to Haiku "
+          f"— run still OK (kept={res.summary['n_kept']}).")
+    print("View it in the trace UI: the affected spans show a fallback marker.")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Quorum code-review pipeline")
     ap.add_argument("--demo", action="store_true", help="run the offline canned demo")
+    ap.add_argument("--fault-demo", action="store_true",
+                    help="demo graceful degradation: tier-0 rate-limits -> fallback -> recovery")
     args = ap.parse_args()
     if args.demo:
         _demo()
+    elif args.fault_demo:
+        _fault_demo()
     else:
         ap.print_help()
